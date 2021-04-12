@@ -98,8 +98,15 @@ public class FXMLController {
     	
     	if(flag == true) {
     		
-    		for(Corso c : model.getCorsiPerStudente(studente))
-    		txtResult.appendText(c.getCodins() +" "+ c.getCrediti() +" "+ c.getNome() +" "+ c.getPd() + "\n");;
+    		StringBuilder sb = new StringBuilder();
+    		for(Corso c : model.getCorsiPerStudente(studente)) {
+        	    sb.append(String.format("%-8s", c.getCodins()));
+        	    sb.append(String.format("%-4d", c.getCrediti()));
+        	    sb.append(String.format("%-50s", c.getNome()));
+        	    sb.append(String.format("%-4d\n", c.getPd()));
+        	    
+        	}
+        	txtResult.appendText(sb.toString());
     	}
     	else {
     		txtResult.setText("Studente non presente nel database");
@@ -220,10 +227,16 @@ public class FXMLController {
     			break;
     		}
     	}
+    	
+    	StringBuilder sb = new StringBuilder();
     	for(Studente s : model.getStudentiIscrittiAlCorso(corso)) {
-    		
-    		stringaStudente = s.getMatricola() +" "+ s.getCognome() +" "+ s.getNome() +" "+ s.getCDS() + "\n";
-    	    txtResult.appendText(stringaStudente);
+    		       	
+        	    sb.append(String.format("%-8d", s.getMatricola()));
+        	    sb.append(String.format("%-20s", s.getCognome()));
+        	    sb.append(String.format("%-20s", s.getNome()));
+        	    sb.append(String.format("%-4s\n", s.getCDS()));
+        	   
+    	    txtResult.appendText(sb.toString());
     	}
     }
 
@@ -243,6 +256,7 @@ public class FXMLController {
 		ccbCorsi.getItems().add("");
 		for(Corso c :  model.getCorso()) {
 		ccbCorsi.getItems().add(c.toString());
+		txtResult.setStyle("-fx-font-family: monospace");
 		}
 	}
 }
